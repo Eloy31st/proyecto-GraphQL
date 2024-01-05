@@ -1,0 +1,44 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout}">
+    <head>
+        <title>[[#{categoria.list.headline}]]</title>
+    </head>
+    <body>
+        <div layout:fragment="content">
+            <div class="d-flex flex-wrap mb-4">
+                <h1 class="flex-grow-1">[[#{categoria.list.headline}]]</h1>
+                <div>
+                    <a th:href="@{/categorias/add}" class="btn btn-primary ms-2">[[#{categoria.list.createNew}]]</a>
+                </div>
+            </div>
+            <div th:if="${categorias.empty}">[[#{categoria.list.empty}]]</div>
+            <div th:if="${!categorias.empty}" class="table-responsive">
+                <table class="table table-striped table-hover align-middle">
+                    <thead>
+                        <tr>
+                            <th scope="col">[[#{categoria.id.label}]]</th>
+                            <th scope="col">[[#{categoria.nombre.label}]]</th>
+                            <th><!-- --></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="categoria : ${categorias}">
+                            <td>[[${categoria.id}]]</td>
+                            <td>[[${categoria.nombre}]]</td>
+                            <td>
+                                <div class="float-end text-nowrap">
+                                    <a th:href="@{/categorias/edit/{id}(id=${categoria.id})}" class="btn btn-sm btn-secondary">[[#{categoria.list.edit}]]</a>
+                                    <form th:action="@{/categorias/delete/{id}(id=${categoria.id})}"
+                                            th:hx-confirm="#{delete.confirm}" method="post" class="d-inline">
+                                        <button type="submit" class="btn btn-sm btn-secondary">[[#{categoria.list.delete}]]</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </body>
+</html>

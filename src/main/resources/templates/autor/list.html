@@ -1,0 +1,44 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout}">
+    <head>
+        <title>[[#{autor.list.headline}]]</title>
+    </head>
+    <body>
+        <div layout:fragment="content">
+            <div class="d-flex flex-wrap mb-4">
+                <h1 class="flex-grow-1">[[#{autor.list.headline}]]</h1>
+                <div>
+                    <a th:href="@{/autors/add}" class="btn btn-primary ms-2">[[#{autor.list.createNew}]]</a>
+                </div>
+            </div>
+            <div th:if="${autors.empty}">[[#{autor.list.empty}]]</div>
+            <div th:if="${!autors.empty}" class="table-responsive">
+                <table class="table table-striped table-hover align-middle">
+                    <thead>
+                        <tr>
+                            <th scope="col">[[#{autor.id.label}]]</th>
+                            <th scope="col">[[#{autor.nombre.label}]]</th>
+                            <th><!-- --></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="autor : ${autors}">
+                            <td>[[${autor.id}]]</td>
+                            <td>[[${autor.nombre}]]</td>
+                            <td>
+                                <div class="float-end text-nowrap">
+                                    <a th:href="@{/autors/edit/{id}(id=${autor.id})}" class="btn btn-sm btn-secondary">[[#{autor.list.edit}]]</a>
+                                    <form th:action="@{/autors/delete/{id}(id=${autor.id})}"
+                                            th:hx-confirm="#{delete.confirm}" method="post" class="d-inline">
+                                        <button type="submit" class="btn btn-sm btn-secondary">[[#{autor.list.delete}]]</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </body>
+</html>
